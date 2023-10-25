@@ -4,11 +4,14 @@ export type Media = {
   genre_ids: string[];
   id: number;
   original_language: string;
-  original_title: string;
+  original_title?: string;
+  original_name?: string;
   overview: string;
   popularity: number;
   poster_path: string;
   release_date: string;
+  media_type: string;
+  first_air_date?: string;
   title: string;
   video: boolean;
   vote_average: number;
@@ -24,4 +27,24 @@ export type Data = {
   results: Media[];
   total_pages?: number;
   total_results?: number;
+};
+
+export type TrailerData = {
+  id: number;
+  results: Trailer;
+  name: string;
+  media_type:string
+};
+
+export type Trailer = {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
 };

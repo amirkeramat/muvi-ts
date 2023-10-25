@@ -1,34 +1,45 @@
 "use client";
-
-import Card from "@/components/ui/card";
 import Toggle from "@/components/ui/toggle";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import getTrending from "@/actions/getTrending";
+import { useState } from "react";
+import CardSlider from "@/components/ui/CardSlider";
+import Loading from "@/components/ui/Loading";
+import FetchLoader from "@/components/ui/FetchLoader";
 
 const Trending = () => {
-  const toggleHandler = () => {};
+  const [list, setList] = useState("day");
+
+  const toggleHandler = (title: string) => {
+    setList(title);
+  };
+
+  const { data, isLoading ,isFetching} = useQuery({
+    queryKey: ["trending", list],
+    queryFn: () => getTrending(list),
+    keepPreviousData: true,
+    staleTime:Infinity
+  });
 
   return (
-    <div className="h-96 mt-6">
-      <div className="flex items-center space-x-10">
-        <h1 className="font-bold text-2xl ms-12">Trending</h1>
+    <div className="mt-6">
+      <div className="flex justify-center md:justify-start items-center space-x-2 md:space-x-10">
+        <h1 className="font-bold text-2xl  md:ms-12">Trending</h1>
         <Toggle titles={["Today", "ThisWeek"]} onClick={toggleHandler} />
+        {isFetching && <FetchLoader/>}
       </div>
-      <div className="relative h-full">
+      <div className="w-full relative h-full">
         <Image
           fill
           alt="background"
           src={"/bar.svg"}
           className="w-full h-full absolute inset-0 z-0"
         />
-        <div className="flex items-center px-12">
-          <Card
-            title="Talk to me"
-            id={222}
-            onClick={() => {}}
-            image="628Dep6AxEtDxjZoGP78TsOxYbK.jpg"
-            date="2023/2/2"
-          />
-        </div>
+        {isLoading && <div className="flex justify-center items-center w-full h-[22rem]">
+          <Loading/>
+          </div>}
+        <CardSlider data={data!} />
       </div>
     </div>
   );

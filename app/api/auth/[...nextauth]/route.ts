@@ -6,7 +6,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { prismadb } from "@/libs/prismadb";
-import Discord from "next-auth/providers/discord";
 
 
 export const authOptions: AuthOptions = {
@@ -58,6 +57,9 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
+  pages:{
+    signIn:"/register",
+  },
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",

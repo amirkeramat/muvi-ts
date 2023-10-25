@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TanstackProvider from "@/providers/TansStackProvier";
 import AuthContext from "@/providers/SessionProvider";
+import { ToastProvider } from "@/providers/ToastProvider";
 export const metadata: Metadata = {
   title: "MUVI",
   description: "MUVI",
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body>
         <AuthContext>
             <TanstackProvider>
+              <ToastProvider/>
               <Navbar />
               {children}
               <Footer />

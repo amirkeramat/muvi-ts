@@ -5,8 +5,9 @@ const getHomeData = async (
   list: string,
   page: number
 ): Promise<Data> => {
-  const baseUrl = process.env.REACT_APP_BASE_URL;
-  const apiKey = process.env.REACT_APP_TMDB_API_KEY;
+  const baseUrl = process.env.NEXT_APP_BASE_URL;
+  
+  const apiKey = process.env.NEXT_APP_TMDB_API_KEY;
   const options = (type: string, list: string, page: number) => {
     return {
       method: "GET",
