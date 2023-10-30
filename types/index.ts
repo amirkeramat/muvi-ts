@@ -33,7 +33,7 @@ export type TrailerData = {
   id: number;
   results: Trailer;
   name: string;
-  media_type:string
+  media_type: string;
 };
 
 export type Trailer = {
@@ -47,4 +47,38 @@ export type Trailer = {
   official: boolean;
   published_at: string;
   id: string;
+};
+
+export type actionList = {
+  original_title?: string;
+  original_name?: string;
+  mediaId: string;
+  mediaType?: string;
+  backdrop_path?: string;
+  release_date?: string;
+  poster_path?: string;
+  first_air_date?: string;
+  vote_average?: string;
+};
+
+export type mediaList = {
+  userId: string;
+  id: string;
+  original_title?: string;
+  original_name?: string;
+  mediaId: string;
+  mediaType: string;
+  backdrop_path?: string;
+  release_date?: string;
+  poster_path?: string;
+  first_air_date?: string;
+  vote_average?: string;
+  createdAt: string;
+};
+
+export type userMediaList = {
+  page: string;
+  results: mediaList[];
+  total_pages: number;
+  total_results: number;
 };

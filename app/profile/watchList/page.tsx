@@ -1,9 +1,10 @@
 import React from 'react'
+import List from '../components/List'
 
-const WatchList = () => {
+const page = () => {
   return (
-    <div>WatchList</div>
+    <List list='watchList' />
   )
 }
 
-export default WatchList
+export default page

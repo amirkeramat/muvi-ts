@@ -1,19 +1,64 @@
 "use client";
 
-import { cn } from "@/libs/utils";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import {
+  BsHeart,
+  BsOption,
+  BsPerson,
+  BsSave,
+  BsSignDeadEnd,
+} from "react-icons/bs";
+
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
-import { Button } from "./ui/button";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
   const pathname = usePathname();
+
   const routes = [
-    { path: "/", name: "Home", active: pathname === "/" },
-    { path: "/movies", name: "Movies", active: pathname === "/movies" },
-    { path: "/series", name: "Series", active: pathname === "/series" },
+    { path: "/", name: "Home" },
+    { path: "/movies", name: "Movies" },
+    { path: "/series", name: "Series" },
+  ];
+
+  const profileRoutes = [
+    { path: "/profile", name: "Profile", icon: <BsPerson size={16} /> },
+    {
+      path: "/profile/watchList",
+      name: "WatchList",
+      icon: <BsHeart size={16} />,
+    },
+    {
+      path: "/profile/favoriteList",
+      name: "FavoriteList",
+      icon: <BsSave size={16} />,
+    },
+    { path: "/profile/setting", name: "Setting", icon: <BsOption size={16} /> },
   ];
 
   return (
@@ -25,14 +70,10 @@ const Navbar = () => {
           </Link>
           {routes.map((route) => (
             <Link
-              className={cn(
-                `
-                text-zinc-100 transition
-                hover:text-zinc-900
-                `,
-                route.active && "text-zinc-900"
-              )}
-              key={route.name}
+              className={`text-zinc-100 transition hover:text-zinc-900 ${
+                pathname === route.path ? "text-zinc-900" : ""
+              }`}
+              key={route.path}
               href={route.path}
             >
               {route.name}
@@ -40,26 +81,18 @@ const Navbar = () => {
           ))}
           {session?.data?.user?.email ? (
             <Link
-              className={cn(
-                `
-                text-zinc-100 transition
-                hover:text-zinc-900
-                `,
-                pathname === "/profile" && "text-zinc-900"
-              )}
+              className={`text-zinc-100 transition hover:text-zinc-900 ${
+                pathname === "/profile/:path*" ? "text-zinc-900" : ""
+              }`}
               href="/profile"
             >
               Profile
             </Link>
           ) : (
             <Link
-              className={cn(
-                `
-                text-zinc-100 transition
-                hover:text-zinc-900
-                `,
-                pathname === "/register" && "text-zinc-900"
-              )}
+              className={`text-zinc-100 transition hover:text-zinc-900 ${
+                pathname === "/register" ? "text-zinc-900" : ""
+              }`}
               href="/register"
             >
               Sign in
@@ -67,13 +100,65 @@ const Navbar = () => {
           )}
         </div>
         {session?.data?.user?.email && (
-          <Avatar className="w-12 h-12">
-            <AvatarImage src={session?.data?.user?.image || ""} />
-            <AvatarFallback>
-              <AvatarImage src="/logo.png" />
-            </AvatarFallback>
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="w-12 h-12 cursor-pointer">
+                <AvatarImage
+                  src={session?.data?.user?.image || "/placeholder.jpg"}
+                />
+                <AvatarFallback>
+                  <AvatarImage src="/placeholder.jpg" />
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-36">
+              <DropdownMenuGroup>
+                {profileRoutes.map((route) => (
+                  <DropdownMenuItem key={route.path} className="cursor-pointer">
+                    <Link
+                      className="flex w-full items-center justify-between"
+                      href={route.path}
+                    >
+                      {route.name}
+                      <DropdownMenuShortcut>{route.icon}</DropdownMenuShortcut>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="cursor-pointer">
+                  <button
+                    onClick={() => setIsOpen(true)}
+                    className="w-full flex items-center justify-between"
+                  >
+                    Log out
+                    <DropdownMenuShortcut>
+                      <BsSignDeadEnd />
+                    </DropdownMenuShortcut>
+                  </button>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         )}
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action will sign you out!
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => signOut()}
+                className="bg-rose-500"
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

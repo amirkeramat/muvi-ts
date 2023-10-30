@@ -29,7 +29,7 @@ model Review {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   body      String
   createdAt DateTime @default(now())
-  mediaId   String   @unique
+  mediaId   String   @db.String
 
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
@@ -38,21 +38,37 @@ model Review {
 }
 
 model watchList {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String @db.ObjectId
-  user      User   @relation("watchListToUser", fields: [userId], references: [id])
-  mediaId   String @unique
-  mediaType String
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @db.ObjectId
+  user           User     @relation("watchListToUser", fields: [userId], references: [id])
+  mediaId        String   @db.String
+  mediaType      String
+  backdrop_path  String?
+  original_title String?
+  original_name  String?
+  poster_path    String?
+  release_date   String?
+  first_air_date String?
+  vote_average   String?
+  createdAt      DateTime @default(now())
 
   @@index([userId])
 }
 
 model favoriteList {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String @db.ObjectId
-  user      User   @relation("favoraiteListtoUser", fields: [userId], references: [id])
-  mediaId   String @unique
-  mediaType String
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @db.ObjectId
+  user           User     @relation("favoraiteListtoUser", fields: [userId], references: [id])
+  mediaId        String   @db.String
+  mediaType      String
+  backdrop_path  String?
+  original_title String?
+  original_name  String?
+  poster_path    String?
+  release_date   String?
+  first_air_date String?
+  vote_average   String?
+  createdAt      DateTime @default(now())
 
   @@index([userId])
 }

@@ -15,27 +15,9 @@ interface VideoSliderProps {
 
 const VideoSlider: React.FC<VideoSliderProps> = ({ data }) => {
   return (
-    <div className="h-80 w-full px-1 md:px-12">
+    <div className="h-80 w-full px-6 md:px-12">
       <Swiper
-        slidesPerView={1}
-        breakpoints={{
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 1,
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 1,
-          },
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 1,
-          },
-          1368: {
-            slidesPerView: 4,
-            spaceBetween: 1,
-          },
-        }}
+        slidesPerView="auto"
         spaceBetween={10}
         modules={[FreeMode]}
         className="mySwiper h-full w-full"

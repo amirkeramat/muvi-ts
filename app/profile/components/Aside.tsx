@@ -29,8 +29,8 @@ const Aside = () => {
   ];
 
   return (
-    <div className="border-r border-gray-300 ">
-      <div className="flex flex-col space-y-8 pr-6 w-36 mt-6">
+    <div className="border-r border-gray-300 min-h-full">
+      <div className="flex flex-row items-center overflow-x-scroll md:overflow-auto scroll-m-2 bg-scroll  w-full py-6 border-b border-yellow-500 px-2 space-x-6 md:w-36  md:flex-col md:space-x-0 md:items-start md:py-0 md:space-y-8 md:pr-6 md:mt-6 md:border-none">
         {routes.map(route=>(
           <Link key={route.path} href={route.path} className={cn(`
             hover:text-yellow-500 transition
@@ -38,7 +38,7 @@ const Aside = () => {
           route.active && "text-yellow-500"
           )}>{route.name}</Link>
         ))}
-        <button className="text-sm font-bold text-left" onClick={() => signOut()}>
+        <button className="text-sm font-bold text-left whitespace-nowrap" onClick={() => signOut()}>
           Sign Out
         </button>
       </div>

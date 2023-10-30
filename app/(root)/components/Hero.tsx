@@ -21,11 +21,13 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import getSearchData from "@/actions/getSerachData";
+import { useRouter } from "next/navigation";
 interface HeroProps {
-  data: Data;
+  data: Data | undefined;
 }
 const Hero: React.FC<HeroProps> = ({ data }) => {
+  const router = useRouter()
   const formSchema = z.object({
     searchValue: z.string().min(1, "This Filed is required"),
   });
@@ -37,13 +39,14 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log("onSubmit");
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    router.push(`/search?query=${data.searchValue}`)
   };
 
   return (
     <div className="h-96 w-full relative">
       <Swiper
+      slidesPerView="auto"
         spaceBetween={30}
         effect={"fade"}
         autoplay={{
@@ -53,8 +56,8 @@ const Hero: React.FC<HeroProps> = ({ data }) => {
         modules={[EffectFade, Autoplay]}
         className="mySwiper h-96 w-full"
       >
-        {data.results.map((item) => (
-          <SwiperSlide key={item.id}>
+        {data?.results.map((item) => (
+          <SwiperSlide className="min-w-full" key={item.id}>
             <Image
               src={`${POSTER_ORIGINAL}${item.backdrop_path}`}
               className="w-full h-96  object-cover  object-center  relative"

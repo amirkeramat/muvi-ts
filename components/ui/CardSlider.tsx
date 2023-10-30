@@ -7,46 +7,30 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Data } from "@/types";
+import { Data, actionList } from "@/types";
 
 interface CardSliderProps {
   data: Data;
-  mediaType?:string
+  mediaType?: string;
+  onClick: (list: string, data: actionList) => void;
 }
 
-const CardSlider: React.FC<CardSliderProps> = ({ data ,mediaType}) => {
+const CardSlider: React.FC<CardSliderProps> = ({
+  data,
+  mediaType,
+  onClick,
+}) => {
   return (
-    <div className="w-full px-1 md:px-12">
+    <div className="w-full px-6 md:px-12">
       <Swiper
-        slidesPerView={2}
-        breakpoints={{
-          480: {
-            slidesPerView: 3,
-            spaceBetween: 5,
-          },
-          640: {
-            slidesPerView: 4,
-            spaceBetween: 5,
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 1,
-          },
-          1024: {
-            slidesPerView: 6,
-            spaceBetween: 1,
-          },
-          1368: {
-            slidesPerView: 8,
-            spaceBetween: 1,
-          },
-        }}
-        spaceBetween={5}
+        centeredSlidesBounds={true}
+        slidesPerView="auto"
+        spaceBetween={15}
         className="mySwiper h-full w-full"
       >
         {data?.results.map((item) => (
           <SwiperSlide key={item.id} className="w-40">
-            <Card mediaType={mediaType} data={item} onClick={() => {}} />
+            <Card onClick={onClick} mediaType={mediaType} data={item} />
           </SwiperSlide>
         ))}
       </Swiper>
