@@ -86,7 +86,7 @@ const SearchPage = () => {
       <div
         className={cn(
           "fixed top-4 w-44 left-[50%] -translate-x-[50%] bg-zinc-900 h-16 z-50 rounded-xl hidden justify-center items-center text-zinc-50 transition",
-          loading && "flex"
+          isFetching && "flex"
         )}
       >
         Working...

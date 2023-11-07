@@ -33,6 +33,7 @@ const ProfileCard: React.FC<CardProps> = ({ data, onClick ,loading}) => {
     first_air_date,
     backdrop_path,
     vote_average,
+    poster_path
   } = data;
 
   const dateFormatter = () => {
@@ -48,6 +49,11 @@ const ProfileCard: React.FC<CardProps> = ({ data, onClick ,loading}) => {
     }
   };
 
+  const imageUrl =
+    backdrop_path || poster_path
+      ? `${POSTER_ORIGINAL}/${backdrop_path || poster_path}`
+      : "/imagePlaceholder.png";
+
   return (
     <div
       className={cn(
@@ -62,7 +68,7 @@ const ProfileCard: React.FC<CardProps> = ({ data, onClick ,loading}) => {
           fill
           alt="card-image"
           className="w-full h-full object-cover rounded-md"
-          src={`${POSTER_ORIGINAL}/${backdrop_path}`}
+          src={imageUrl}
         />
       </div>
       <div className="mt-6 space-y-2 flex flex-col justify-center items-center">

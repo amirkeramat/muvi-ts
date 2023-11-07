@@ -10,12 +10,20 @@ export async function POST(request: Request) {
     const { name, email, password } = body;
 
     if (!name || !email || !password) {
-
       return new NextResponse("Missing Info", { status: 401 });
-      
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    const isExist = await prismadb.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (isExist) {
+      return new NextResponse("email is exist try to sign in!Or use another email address", { status: 402 });
+    }
 
     const newUser = await prismadb.user.create({
       data: {
@@ -26,7 +34,6 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(newUser);
-
   } catch (error) {
     console.log(error, "REGISTRATION_ERROR");
     return new NextResponse("Internal Error", { status: 500 });

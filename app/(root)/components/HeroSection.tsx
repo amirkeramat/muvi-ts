@@ -10,6 +10,7 @@ import { actionList } from "@/types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface HeroSectionProps {
   title: string;
@@ -65,6 +66,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         {isFetching && <FetchLoader />}
       </div>
       <div className="w-full relative h-full">
+        <Image
+          fill
+          alt="background"
+          src={"/bar.svg"}
+          className="w-full h-full absolute inset-0 z-0"
+        />
         {isLoading ? (
           <div className="flex justify-center items-center h-96 w-full">
             <Loading />

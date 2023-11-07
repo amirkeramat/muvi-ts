@@ -39,7 +39,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
   const pathname = usePathname();
-
+  
   const routes = [
     { path: "/", name: "Home" },
     { path: "/movies", name: "Movies" },

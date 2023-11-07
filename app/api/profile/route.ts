@@ -14,8 +14,21 @@ export async function GET(req: Request) {
         email: session.user.email,
       },
       include: {
-        watchList: true,
-        favoriteList: true,
+        watchList: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        favoriteList: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        reviews: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 

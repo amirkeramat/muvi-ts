@@ -6,12 +6,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  BsEye,
-  BsEyeSlash,
-  BsGithub,
-  BsGoogle,
-} from "react-icons/bs";
+import { BsEye, BsEyeSlash, BsGithub, BsGoogle } from "react-icons/bs";
 
 import {
   Form,
@@ -24,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthSocialButton from "./AuthSocialButton";
+import toast from "react-hot-toast";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -78,9 +74,12 @@ const AuthForm = () => {
         .post("/api/register", data)
         .then(() => signIn("credentials", data))
         .catch((err) => {
-          console.log(err);
+          toast.error(err.response.data);
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+          router.push("/profile");
+        });
     }
 
     if (variant === "LOGIN") {
@@ -90,13 +89,16 @@ const AuthForm = () => {
       })
         .then((callback) => {
           if (callback?.error) {
-            console.log(callback.error);
+            toast.error(callback.error);
           }
           if (callback?.ok && !callback?.error) {
-            console.log("logged in");
+            toast.success("Welcome back");
           }
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+          router.push("/profile");
+        });
     }
   };
 
@@ -106,13 +108,16 @@ const AuthForm = () => {
     })
       .then((callback) => {
         if (callback?.error) {
-          console.log(callback.error);
+          toast.error(callback.error);
         }
         if (callback?.ok && !callback?.error) {
-          console.log("logged in");
+          toast.success("Welcome back");
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        router.push("/profile");
+      });
   };
 
   return (

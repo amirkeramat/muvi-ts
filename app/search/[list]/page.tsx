@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import getSearchData from "@/actions/getSerachData";
 import { useState } from "react";
@@ -88,6 +88,7 @@ const ListPage = ({ params }: { params: { list: string } }) => {
       <div
         className={cn(
           "fixed top-4 w-44 left-[50%] -translate-x-[50%] bg-zinc-900 h-16 z-50 rounded-xl hidden justify-center items-center text-zinc-50 transition",
+          isFetching && "flex",
           loading && "flex"
         )}
       >
