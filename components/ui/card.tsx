@@ -121,7 +121,7 @@ const Card: React.FC<CardProps> = ({ data, onClick, mediaType }) => {
         />
         <Link
           className="absolute inset-0 z-20"
-          href={`/${media_type || mediaType}/${id}`}
+          href={`/media/${media_type || mediaType}/${id}`}
         />
       </div>
       <div className="mt-6 space-y-2 flex flex-col justify-center items-center">

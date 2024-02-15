@@ -39,11 +39,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const session = useSession();
   const pathname = usePathname();
-  
+
   const routes = [
     { path: "/", name: "Home" },
-    { path: "/movies", name: "Movies" },
-    { path: "/series", name: "Series" },
+    { path: "/media/movies", name: "Movies" },
+    { path: "/media/series", name: "Series" },
   ];
 
   const profileRoutes = [
